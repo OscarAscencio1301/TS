@@ -1,34 +1,34 @@
-import React from 'react'
+import { Suspense } from 'react'
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
 
-import logo from '../logo.svg'
-import { AboutView } from '../views/AboutView'
-import { HomeView } from '../views/HomeView'
-import { UserView } from '../views/UserView'
+import { routes } from './routes'
 
 
 
 export const AppRouter = () => {
   return (
-    <BrowserRouter>
-      <div className="main-layout">
-        <nav>
-          <img src={logo} alt="logo" />
-          <ul>
-            <li> <NavLink to={'/home'}>Home</NavLink> </li>
-            <li> <NavLink to={'/about'}>About</NavLink> </li>
-            <li> <NavLink to={'/users'}>Users</NavLink> </li>
-          </ul>
-        </nav>
+    <Suspense fallback={<h1>Hola Mundo</h1>}>
+      <BrowserRouter>
+        <div className="main-layout">
+          <nav>
+            {/* <img src={logo} alt="logo" /> */}
+            <ul>
+              {
+                routes.map(route => <li> <NavLink to={route.to}>{route.name}</NavLink> </li>)
+
+              }
+            </ul>
+          </nav>
 
 
-        <Routes>
-          <Route path='/home' element={<HomeView />} />
-          <Route path='/about' element={<AboutView />} />
-          <Route path='/users' element={<UserView />} />
-          <Route path='/*' element={<HomeView />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+          <Routes>
+
+            {
+              routes.map(route => <Route path={route.path} element={<route.Component />} />)
+            }
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </Suspense>
   )
 }

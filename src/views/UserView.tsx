@@ -5,3 +5,5 @@ export const UserView = () => {
     <div>UserView</div>
   )
 }
+
+export default UserView
